@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-* TG交流反馈群组：https://t.me/eooceu
 * youtube视频教程：https://www.youtube.com/@eooce
 
 
