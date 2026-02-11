@@ -58,14 +58,14 @@ class LeaflowAutoCheckin:
         """关闭初始弹窗"""
         try:
             logger.info("尝试关闭初始弹窗...")
-            time.sleep(3)  # 等待弹窗加载
+            time.sleep(5)  # 等待弹窗加载
             
             # 尝试关闭弹窗
             try:
                 actions = ActionChains(self.driver)
                 actions.move_by_offset(10, 10).click().perform()
                 logger.info("已成功关闭弹窗")
-                time.sleep(2)
+                time.sleep(5)
                 return True
             except:
                 pass
@@ -75,13 +75,13 @@ class LeaflowAutoCheckin:
             logger.warning(f"关闭弹窗时出错: {e}")
             return False
     
-    def wait_for_element_clickable(self, by, value, timeout=10):
+    def wait_for_element_clickable(self, by, value, timeout=15):
         """等待元素可点击"""
         return WebDriverWait(self.driver, timeout).until(
             EC.element_to_be_clickable((by, value))
         )
     
-    def wait_for_element_present(self, by, value, timeout=10):
+    def wait_for_element_present(self, by, value, timeout=15):
         """等待元素出现"""
         return WebDriverWait(self.driver, timeout).until(
             EC.presence_of_element_located((by, value))
@@ -93,7 +93,7 @@ class LeaflowAutoCheckin:
         
         # 访问登录页面
         self.driver.get("https://leaflow.net/login")
-        time.sleep(5)
+        time.sleep(10)
         
         # 关闭弹窗
         self.close_popup()
@@ -103,7 +103,7 @@ class LeaflowAutoCheckin:
             logger.info("查找邮箱输入框...")
             
             # 等待页面稳定
-            time.sleep(2)
+            time.sleep(5)
             
             # 尝试多种选择器找到邮箱输入框
             email_selectors = [
@@ -132,7 +132,7 @@ class LeaflowAutoCheckin:
             email_input.clear()
             email_input.send_keys(self.email)
             logger.info("邮箱输入完成")
-            time.sleep(2)
+            time.sleep(5)
             
         except Exception as e:
             logger.error(f"输入邮箱时出错: {e}")
@@ -140,7 +140,7 @@ class LeaflowAutoCheckin:
             try:
                 self.driver.execute_script(f"document.querySelector('input[type=\"text\"], input[type=\"email\"]').value = '{self.email}';")
                 logger.info("通过JavaScript设置邮箱")
-                time.sleep(2)
+                time.sleep(5)
             except:
                 raise Exception(f"无法输入邮箱: {e}")
         
@@ -156,7 +156,7 @@ class LeaflowAutoCheckin:
             password_input.clear()
             password_input.send_keys(self.password)
             logger.info("密码输入完成")
-            time.sleep(1)
+            time.sleep(3)
             
         except TimeoutException:
             raise Exception("找不到密码输入框")
@@ -229,7 +229,7 @@ class LeaflowAutoCheckin:
             
             # 跳转到仪表板页面
             self.driver.get("https://leaflow.net/dashboard")
-            time.sleep(3)
+            time.sleep(8)
             
             # 等待页面加载
             WebDriverWait(self.driver, 10).until(
@@ -270,7 +270,7 @@ class LeaflowAutoCheckin:
             logger.warning(f"获取余额时出错: {e}")
             return "未知"
     
-    def wait_for_checkin_page_loaded(self, max_retries=3, wait_time=20):
+    def wait_for_checkin_page_loaded(self, max_retries=3, wait_time=30):
         """等待签到页面完全加载，支持重试"""
         for attempt in range(max_retries):
             logger.info(f"等待签到页面加载，尝试 {attempt + 1}/{max_retries}，等待 {wait_time} 秒...")
@@ -316,7 +316,7 @@ class LeaflowAutoCheckin:
         
         try:
             # 先等待页面可能的重载
-            time.sleep(5)
+            time.sleep(10)
             
             # 使用和单账号成功时相同的选择器
             checkin_selectors = [
@@ -383,7 +383,7 @@ class LeaflowAutoCheckin:
             return "今日已签到"
         elif checkin_result is True:
             logger.info("已点击立即签到按钮")
-            time.sleep(5)  # 等待签到结果
+            time.sleep(8)  # 等待签到结果
             
             # 获取签到结果
             result_message = self.get_checkin_result()
@@ -395,7 +395,7 @@ class LeaflowAutoCheckin:
         """获取签到结果消息"""
         try:
             # 给页面一些时间显示结果
-            time.sleep(3)
+            time.sleep(5)
             
             # 尝试查找各种可能的成功消息元素
             success_selectors = [
